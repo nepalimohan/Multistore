@@ -4,6 +4,15 @@ from django.contrib import messages, auth
 
 # Create your views here.
 def login(request):
+    if request.method == "POST":
+        username = request.POST['username']
+        password = request.POST['password']
+        
+        user = auth.authenticate(username=username, password=password)
+        
+        if user is not None:
+            return redirect('product:checkout')
+        
     return render(request, 'account/login.html')
 
 def register(request):
