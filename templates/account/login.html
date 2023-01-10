@@ -4,13 +4,13 @@
     <div class="main">
         <!-- Sing in  Form -->
         <section class="sign-in">
+            {% include 'includes/messages.html' %}
             <div class="container">
                 <div class="signin-content">
                     <div class="signin-image">
                         <figure><img src="{% static 'account/images/signin-image.jpg' %}" alt="sing up image"></figure>
                         <a href="{% url 'account:register' %}" class="signup-image-link">Create an account</a>
                     </div>
-
                     <div class="signin-form">
                         <h2 class="form-title">Login</h2>
                         <form method="POST" class="register-form" id="login-form">
