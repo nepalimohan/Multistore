@@ -9267,6 +9267,10 @@ button.bg-dark:focus {
   color: #FFD333 !important;
 }
 
+.text-primary-login {
+  color: white;
+}
+
 a.text-primary:hover, a.text-primary:focus {
   color: #e6b400 !important;
 }

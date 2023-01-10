@@ -10,6 +10,7 @@ class CategoryAdmin(admin.ModelAdmin):
 @admin.register(SubCategory)
 class SubCategory(admin.ModelAdmin):
     list_display = ['id', 'name', 'category']
+    list_filter = ['category']
 
 
 @admin.register(Product)
