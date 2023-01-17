@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages, auth
+from django.http import HttpResponse
 
 
 # Create your views here.
@@ -19,6 +20,19 @@ def login(request):
     return render(request, 'account/login.html')
 
 def register(request):
+    if request.method == "POST":
+        first_name = request.POST['first_name']
+        last_name = request.POST['last_name']
+        email = request.POST['email']
+        phone = request.POST['phone']
+        address = request.POST['address']
+        city = request.POST['city']
+        username = request.POST['username']
+        password = request.POST['pass']
+        password2 = request.POST['re_pass']
+        
+        print(username)
+        return HttpResponse("Register view working")
     return render(request, 'account/register.html')
 
 def logout(request):

@@ -13,39 +13,65 @@ class Category(models.Model):
     def __str__(self):
         return self.name
     
-class SubCategory(models.Model):
-    subcategory_choices = (
+class MensSubCategory(models.Model):
+    name = models.CharField(max_length=50, choices=[
         ('Jeans','Jeans'),
         ('Shoes','Shoes'),
         ('Socks','Socks'),
         ('Hoddie','Hoodie'),
-    )
-    name = models.CharField(max_length=50, choices=subcategory_choices)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    
+    ])
+    class Meta:
+        verbose_name = 'Mens SubCategory'
+        verbose_name_plural = 'Mens SubCategories'
+    def __str__(self):
+        return self.name
+
+class WomensSubCategory(models.Model):
+    name = models.CharField(max_length=50, choices=[
+        ('Jeans','Jeans'),
+        ('Shoes','Shoes'),
+        ('Socks','Socks'),
+        ('Hoddie','Hoodie'),
+    ])
+    class Meta:
+        verbose_name = 'Womens SubCategory'
+        verbose_name_plural = 'Womens SubCategories'
     def __str__(self):
         return self.name
     
+
 class Product(models.Model):
-    sizes_choices = (
-        ('S','Small'),
-        ('M','Medium'),
-        ('L','Large'),
-        ('XL','Extra Large'),
-        ('XXL','Extra Extra Large'),
-        )
-    
-    
     name = models.CharField(max_length=100)
-    price = models.PositiveIntegerField()
-    subcategory = models.ForeignKey(SubCategory, on_delete=models.CASCADE)
-    size = models.CharField(max_length=10, choices=sizes_choices, null=True, blank=True)
+    subcategory_men = models.ForeignKey(MensSubCategory, on_delete=models.CASCADE, blank=True, null=True)
+    subcategory_woemen = models.ForeignKey(WomensSubCategory, on_delete=models.CASCADE, blank=True, null=True)
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    image = models.ImageField(upload_to='products/')
+    description = models.TextField(blank=True)
     stock = models.PositiveIntegerField()
-    description = models.TextField()
+    SIZES = (
+        ('S', 'Small'),
+        ('M', 'Medium'),
+        ('L', 'Large'),
+    )
+    SHOE_SIZES = (
+        ('39', '39'),
+        ('40', '40'),
+        ('41', '41'),
+    )
+    size = models.CharField(max_length=2, choices=SIZES, blank=True)
     is_featured = models.BooleanField(default=False)
-    
+
     def __str__(self):
         return self.name
+    
+    def save(self, *args, **kwargs):
+        if self.subcategory.name == 'Shoes':
+            print(self.subcategory.name)
+            self.size = self.SHOE_SIZES
+        else:
+            self.size = self.SIZES
+        super().save(*args, **kwargs)
+    
     
 class Customer(models.Model):
     gender_choices = (
@@ -70,4 +96,3 @@ class Customer(models.Model):
     
     def __str__(self):
         return self.first_name
-    
