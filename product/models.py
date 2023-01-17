@@ -20,6 +20,7 @@ class MensSubCategory(models.Model):
         ('Socks','Socks'),
         ('Hoddie','Hoodie'),
     ])
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, blank=True, null=True)
     class Meta:
         verbose_name = 'Mens SubCategory'
         verbose_name_plural = 'Mens SubCategories'
@@ -33,6 +34,8 @@ class WomensSubCategory(models.Model):
         ('Socks','Socks'),
         ('Hoddie','Hoodie'),
     ])
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, blank=True, null=True)
+    
     class Meta:
         verbose_name = 'Womens SubCategory'
         verbose_name_plural = 'Womens SubCategories'
@@ -58,19 +61,19 @@ class Product(models.Model):
         ('40', '40'),
         ('41', '41'),
     )
-    size = models.CharField(max_length=2, choices=SIZES, blank=True)
-    is_featured = models.BooleanField(default=False)
-
-    def __str__(self):
-        return self.name
     
     def save(self, *args, **kwargs):
-        if self.subcategory.name == 'Shoes':
-            print(self.subcategory.name)
+        if (self.subcategory_men or self.subcategory_men.name == 'Shoes') or (self.subcategory_women or self.subcategory_women.name == 'Shoes'):
             self.size = self.SHOE_SIZES
         else:
             self.size = self.SIZES
         super().save(*args, **kwargs)
+        
+    size = models.CharField(max_length=2, blank=True)
+    is_featured = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.name
     
     
 class Customer(models.Model):

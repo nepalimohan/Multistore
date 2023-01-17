@@ -16,11 +16,11 @@
                 <form method="POST" action="{% url 'account:register' %}" class="register-form" id="register-form">
                     {% csrf_token %}
                     <div class="form-group">
-                        <label for="name"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                        <label for="name"><i class="zmdi zmdi-assignment material-icons-name"></i></label>
                         <input type="text" name="first_name" id="first_name" placeholder="First Name"/>
                     </div>
                     <div class="form-group">
-                        <label for="name"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                        <label for="name"><i class="zmdi zmdi-assignment material-icons-name"></i></label>
                         <input type="text" name="last_name" id="last_name" placeholder="Last Name"/>
                     </div>
                     <div class="form-group">
@@ -28,15 +28,15 @@
                         <input type="email" name="email" id="email" placeholder="Your Email"/>
                     </div>
                     <div class="form-group">
-                        <label for="number"><i class="zmdi zmdi-email"></i></label>
+                        <label for="number"><i class="zmdi zmdi-phone"></i></label>
                         <input type="number" name="phone" id="phone" placeholder="Mobile Number"/>
                     </div>
                     <div class="form-group">
-                        <label for="address"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                        <label for="address"><i class="zmdi zmdi-city material-icons-name"></i></label>
                         <input type="text" name="address" id="address" placeholder="Address"/>
                     </div>
                     <div class="form-group">
-                        <label for="city"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                        <label for="city"><i class="zmdi zmdi-city material-icons-name"></i></label>
                         <input type="text" name="city" id="city" placeholder="City"/>
                     </div>
                     <div class="form-group">
