@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages, auth
+from django.contrib.auth.models import User
 from django.http import HttpResponse
+from product.models import Customer
 
 
 # Create your views here.
@@ -30,6 +32,26 @@ def register(request):
         username = request.POST['username']
         password = request.POST['pass']
         password2 = request.POST['re_pass']
+        
+        
+        if password == password2:
+            if User.objects.filter(username=username).exists():
+                messages.error(request, "Username exists. Please enter another username!!!")
+                return redirect('account:register')
+            
+            else:
+                if User.objects.filter(email=email).exists():
+                    messages.error(request, "Email exists. Please enter another email!!!")
+                    return redirect('account:register')
+                
+                else:
+                    user = User.objects.create_user(first_name=first_name, last_name=last_name, username=username, email=email, password=password, 
+                                                        is_active=True)
+                    customer = Customer.objects.create(user=user, first_name=first_name, last_name=last_name, email=email,
+                                                       phone=phone, address=address, city=city)
+                    auth.login(request, user)
+                    messages.success(request, "User Logged in Successfully!!!")
+                    return redirect('home')
         
         print(username)
         return HttpResponse("Register view working")

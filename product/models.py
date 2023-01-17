@@ -77,11 +77,6 @@ class Product(models.Model):
     
     
 class Customer(models.Model):
-    gender_choices = (
-        ('Male', 'Male'),
-        ('Female', 'Female'),
-    )
-    
     city_choices = (
         ('Kathmandu','Kathmandu'),
         ('Chitwan','Chitwan'),
@@ -95,7 +90,7 @@ class Customer(models.Model):
     phone = models.PositiveIntegerField()
     address = models.CharField(max_length=100)
     city = models.CharField(max_length=50,choices=city_choices)
-    gender = models.CharField(max_length=10, choices=gender_choices)
+    
     
     def __str__(self):
         return self.first_name
