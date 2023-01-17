@@ -13,7 +13,7 @@ class Category(models.Model):
     def __str__(self):
         return self.name
     
-class MensSubCategory(models.Model):
+class Subcategory(models.Model):
     name = models.CharField(max_length=50, choices=[
         ('Jeans','Jeans'),
         ('Shoes','Shoes'),
@@ -22,31 +22,15 @@ class MensSubCategory(models.Model):
     ])
     category = models.ForeignKey(Category, on_delete=models.CASCADE, blank=True, null=True)
     class Meta:
-        verbose_name = 'Mens SubCategory'
-        verbose_name_plural = 'Mens SubCategories'
+        verbose_name = 'SubCategory'
+        verbose_name_plural = 'SubCategories'
+        
     def __str__(self):
-        return self.name
-
-class WomensSubCategory(models.Model):
-    name = models.CharField(max_length=50, choices=[
-        ('Jeans','Jeans'),
-        ('Shoes','Shoes'),
-        ('Socks','Socks'),
-        ('Hoddie','Hoodie'),
-    ])
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, blank=True, null=True)
-    
-    class Meta:
-        verbose_name = 'Womens SubCategory'
-        verbose_name_plural = 'Womens SubCategories'
-    def __str__(self):
-        return self.name
-    
+        return f'{self.category.name} | {self.name}'   
 
 class Product(models.Model):
     name = models.CharField(max_length=100)
-    subcategory_men = models.ForeignKey(MensSubCategory, on_delete=models.CASCADE, blank=True, null=True)
-    subcategory_woemen = models.ForeignKey(WomensSubCategory, on_delete=models.CASCADE, blank=True, null=True)
+    subcategory = models.ForeignKey(Subcategory, on_delete=models.CASCADE, blank=True, null=True, related_name='subcategories')
     price = models.DecimalField(max_digits=10, decimal_places=2)
     image = models.ImageField(upload_to='products/')
     description = models.TextField(blank=True)

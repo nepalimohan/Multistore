@@ -1,5 +1,5 @@
 from django.contrib import admin
-from product.models import Category, Product, MensSubCategory, WomensSubCategory, Customer
+from product.models import Category, Product, Customer, Subcategory
 
 
 # Register your models here.
@@ -8,13 +8,8 @@ class CategoryAdmin(admin.ModelAdmin):
     list_display = ['id', 'name']
 
 
-@admin.register(MensSubCategory)
-class MensSubCategoryAdmin(admin.ModelAdmin):
-    list_display = ['id', 'name', 'category']
-    list_filter = ['category']
-
-@admin.register(WomensSubCategory)
-class WomensSubCategoryAdmin(admin.ModelAdmin):
+@admin.register(Subcategory)
+class SubCategoryAdmin(admin.ModelAdmin):
     list_display = ['id', 'name', 'category']
     list_filter = ['category']
 
