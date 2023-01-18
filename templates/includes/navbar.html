@@ -34,7 +34,7 @@
                 <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                     <div class="navbar-nav mr-auto py-0">
                         <a href="{% url 'product:home' %}" {% if request.path == '/' %}class="nav-item nav-link active"{% endif %} class="nav-item nav-link">Home</a>
-                        <a href="#" class="nav-item nav-link">Shop</a>
+                        <a href="{% url 'product:shop' %}" class="nav-item nav-link">Shop</a>
                         <a href="detail.html" class="nav-item nav-link">Shop Detail</a>
                         <div class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Pages <i class="fa fa-angle-down mt-1"></i></a>
@@ -47,7 +47,7 @@
                     </div>
                     <div class="navbar-nav ml-auto py-0 d-none d-lg-block">
                         {% if request.user.is_authenticated %}
-                        <span class="btn px-0 text-primary-login">Welcome {{request.user.first_name}} |</span>
+                        <span class="btn px-0 text-primary-login">Welcome {{request.user}} |</span>
                         <a href="{% url 'account:logout' %}" class="btn px-0">
                             <span class="text-primary-login">Logout</span>
                         </a>
@@ -55,11 +55,11 @@
                         <a href="{% url 'account:login' %}" class="btn px-0">
                             <span class="text-primary-login active">Login/Register</span>
                         </a>
-                        {% endif %}
-                        {% comment %} <a href="" class="btn px-0">
+                        {% endif %} 
+                         {% comment %} <a href="" class="btn px-0">
                             <i class="fas fa-heart text-primary"></i>
                             <span class="badge text-secondary border border-secondary rounded-circle" style="padding-bottom: 2px;">0</span>
-                        </a> {% endcomment %}
+                        </a>  {% endcomment %}
                         <a href="{% url 'product:cart' %}" class="btn px-0 ml-3">
                             <i class="fas fa-shopping-cart text-primary"></i>
                             <span class="badge text-secondary border border-secondary rounded-circle" style="padding-bottom: 2px;">0</span>

@@ -20,7 +20,7 @@ class SubCategoryAdmin(ModelAdmin):
 
 @register(Product)
 class ProductAdmin(ModelAdmin):
-    list_display = ('id', 'name', 'price', 'size', 'stock', 'description', 'is_featured')
+    list_display = ('id', 'name', 'price', 'stock', 'description', 'is_featured')
     icon_name = 'photo'
     
 @register(Customer)

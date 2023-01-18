@@ -39,21 +39,18 @@ class Product(models.Model):
         ('S', 'Small'),
         ('M', 'Medium'),
         ('L', 'Large'),
+        ('XL', 'Extra Large'),
+        ('XXL', 'Extra Extra Large'),
     )
     SHOE_SIZES = (
-        ('39', '39'),
-        ('40', '40'),
-        ('41', '41'),
-    )
-    
-    def save(self, *args, **kwargs):
-        if (self.subcategory_men or self.subcategory_men.name == 'Shoes') or (self.subcategory_women or self.subcategory_women.name == 'Shoes'):
-            self.size = self.SHOE_SIZES
-        else:
-            self.size = self.SIZES
-        super().save(*args, **kwargs)
-        
-    size = models.CharField(max_length=2, blank=True)
+        (39, 39),
+        (40, 40),
+        (41, 41),
+        (42, 42),
+        (42, 42),
+    )    
+    clothes_size = models.CharField(max_length=3, choices=SIZES ,blank=True, null=True)
+    shoe_size = models.PositiveIntegerField(choices=SHOE_SIZES ,blank=True, null=True)
     is_featured = models.BooleanField(default=False)
 
     def __str__(self):
