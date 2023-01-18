@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 from pathlib import Path
 import os
+from django.utils.translation import gettext_lazy as _
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -69,6 +70,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.static',
             ],
         },
     },
@@ -87,6 +89,28 @@ DATABASES = {
         'USERNAME': 'postgres',
         'PASSWORD': 'root',
         'HOST': 'localhost',
+    }
+}
+
+MATERIAL_ADMIN_SITE = {
+    'HEADER':  _('MultiShop Admin Panel'),  # Admin site header
+    'TITLE':  _('Multishop'),  # Admin site title
+    'FAVICON':  'path/to/favicon',  # Admin site favicon (path to static should be specified)
+    'MAIN_BG_COLOR':  '',  # Admin site main color, css color should be specified
+    'MAIN_HOVER_COLOR':  '',  # Admin site main hover color, css color should be specified
+    # 'PROFILE_PICTURE':  'img/user.jpg',  # Admin site profile picture (path to static should be specified)
+    # 'PROFILE_BG':  'img/bg.avif',  # Admin site profile background (path to static should be specified)
+    # 'LOGIN_LOGO':  'path/to/image',  # Admin site logo on login page (path to static should be specified)
+    # 'LOGOUT_BG':  'path/to/image',  # Admin site background on login/logout pages (path to static should be specified)
+    'SHOW_THEMES':  True,  #  Show default admin themes button
+    'TRAY_REVERSE': True,  # Hide object-tools and additional-submit-line by default
+    'NAVBAR_REVERSE': True,  # Hide side navbar by default
+    'SHOW_COUNTS': True, # Show instances counts for each model
+    'APP_ICONS': {  # Set icons for applications(lowercase), including 3rd party apps, {'application_name': 'material_icon_name', ...}
+        'sites': 'send',
+    },
+    'MODEL_ICONS': {  # Set icons for models(lowercase), including 3rd party models, {'model_name': 'material_icon_name', ...}
+        'site': 'contact_mail',
     }
 }
 

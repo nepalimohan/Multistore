@@ -1,7 +1,10 @@
-# from django.contrib import admin
+from django.contrib import admin
 from django.contrib.admin import ModelAdmin, register
 from product.models import Category, Product, Customer, Subcategory
+from django.contrib.auth.models import Group, User
 
+# admin.site.unregister(Group)
+# admin.site.unregister(User)
 
 @register(Category)
 class CategoryAdmin(ModelAdmin):
@@ -19,6 +22,7 @@ class SubCategoryAdmin(ModelAdmin):
 class ProductAdmin(ModelAdmin):
     list_display = ('id', 'name', 'price', 'size', 'stock', 'description', 'is_featured')
     icon_name = 'photo'
+    
 @register(Customer)
 class CustomerAdmin(ModelAdmin):
     list_display = ('id',)
