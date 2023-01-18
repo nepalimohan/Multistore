@@ -6,21 +6,24 @@ from product.models import Category, Product, Customer, Subcategory
 @register(Category)
 class CategoryAdmin(ModelAdmin):
     list_display = ('id', 'name')
+    icon_name = 'reorder'
 
 
 @register(Subcategory)
 class SubCategoryAdmin(ModelAdmin):
     list_display = ('id', 'name', 'category')
     list_filter = ('category',)
-
+    icon_name = 'view_comfy'
 
 @register(Product)
 class ProductAdmin(ModelAdmin):
     list_display = ('id', 'name', 'price', 'size', 'stock', 'description', 'is_featured')
-    
+    icon_name = 'photo'
 @register(Customer)
 class CustomerAdmin(ModelAdmin):
     list_display = ('id',)
+    icon_name = 'person'
+    
 
 
 # Register your models here.
