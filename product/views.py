@@ -3,6 +3,18 @@ from django.http import HttpResponse
 from . import models
 
 # Create your views here.
+def home(request):
+    category = models.Category.objects.all().distinct()
+    subcategory = models.Subcategory.objects.all().distinct()
+    product = models.Product.objects.all().last()
+    # print(product.)
+    product = {
+        'category':category,
+        'subcategory':subcategory,
+        'product':product,
+    }
+    return render(request, 'product/home.html', product)
+
 def products(request, id):
     product = models.Product.objects.filter(subcategory__id=id)
     print(product)
