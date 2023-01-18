@@ -28,5 +28,8 @@ def products(request, id):
 def shop(request):
     return render(request, 'product/shop.html')
 
+def cart(request):
+    return render(request, 'product/cart.html')
+
 def checkout(request):
     return render(request, 'product/checkout.html')
