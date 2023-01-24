@@ -8,7 +8,7 @@ from django.contrib.auth.models import Group, User
 
 @register(Category)
 class CategoryAdmin(ModelAdmin):
-    list_display = ('id', 'name')
+    list_display = ('id', 'name', 'parent')
     icon_name = 'reorder'
 
 

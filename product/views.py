@@ -17,16 +17,21 @@ def home(request):
 
 def products(request, id):
     product = models.Product.objects.filter(subcategory__id=id)
-    print(product)
     context = {
         'product': product,
     }
     
-    return HttpResponse("Dynamic")
+    return render(request, 'product/shop.html', context)
+    # return HttpResponse("Dynamic")
 
 
-def shop(request):
-    return render(request, 'product/shop.html')
+def shop(request, id):
+    product = models.Product.objects.filter(subcategory__id=id)
+    context = {
+        'product': product,
+    }
+    
+    return render(request, 'product/shop.html', context)
 
 def cart(request):
     return render(request, 'product/cart.html')
