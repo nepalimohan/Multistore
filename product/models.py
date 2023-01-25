@@ -22,7 +22,8 @@ class Subcategory(models.Model):
 
 class Product(models.Model):
     name = models.CharField(max_length=100)
-    subcategory = models.ForeignKey(Subcategory, on_delete=models.CASCADE, blank=True, null=True, related_name='subcategories')
+    # subcategory = models.ForeignKey(Subcategory, on_delete=models.CASCADE, blank=True, null=True, related_name='subcategories')
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, blank=True, null=True, related_name='categories')
     price = models.DecimalField(max_digits=10, decimal_places=2)
     image = models.ImageField(upload_to='uploads/')
     description = models.TextField(blank=True)

@@ -12,9 +12,11 @@
                             <div class="nav-item dropdown dropright">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">{{cat.name}}<i class="fa fa-angle-right float-right mt-1"></i></a>
                                 <div class="dropdown-menu position-absolute rounded-0 border-0 m-0">
-                                    {% for subcat in cat.subcategory_set.all %}
+                                    {% comment %} {% for subcat in cat.subcategory_set.all %}
                                             <a href="{% url 'product:product' subcat.id %}" class="dropdown-item">{{subcat.name}}</a>
-                                            {% comment %} <a href="?subcat={{subcat.id}}" class="dropdown-item">{{subcat.name}}</a> {% endcomment %}
+                                    {% endfor %} {% endcomment %}
+                                    {% for sub in cat.children.all %}
+                                    <a href="{% url 'product:product' sub.id %}" class="dropdown-item">{{sub.name}}</a>
                                     {% endfor %}
                                 </div>
                             </div>

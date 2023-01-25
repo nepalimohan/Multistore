@@ -4,7 +4,7 @@ from . import models
 
 # Create your views here.
 def home(request):
-    category = models.Category.objects.all().distinct()
+    category = models.Category.objects.filter(parent=None)
     subcategory = models.Subcategory.objects.all().distinct()
     product = models.Product.objects.all().last()
     # print(product.)
