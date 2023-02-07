@@ -3,6 +3,8 @@ from django.contrib.auth.decorators import login_required
 from . import models
 from .models import Cart
 from django.shortcuts import get_object_or_404
+from django.http import JsonResponse, HttpResponse
+from django.db.models import Q
 
 # Create your views here.
 def home(request):
@@ -36,18 +38,60 @@ def shop(request, id):
 
 # @login_required(login_url='/account/login/')
 def cart(request):
-    # user= request.user
-    # product_id = request.GET.get('prod_id')
-    # print(product_id)
-    # product = models.Product.objects.get(id=product_id)
-    
-    # models.Cart.objects.create(user=user, product=product)
-    # return redirect('product:cart')
     cart = models.Cart.objects.all()
     context = {
         'cart': cart,
     }
     return render(request, 'product/cart.html', context)
+
+def plus_cart(request):
+    if request.method == "GET":
+        prod_id = request.GET['prod_id'] #getting info stored in prod_id from myscript.js
+        print(prod_id)
+        c = Cart.objects.get(Q(product=prod_id) & Q(user=request.user))
+        c.quantity+=1
+        c.save()
+        amount = 0
+        shipping_amount = 100
+        cart_product = [p for p in Cart.objects.all() if p.user == request.user]
+        for p in cart_product:
+            temp_amount = (p.quantity * p.product.price)
+            print(temp_amount)
+            
+            amount+= temp_amount
+        
+        
+
+        print(amount)
+        data = {
+            'quantity':c.quantity,
+            'amount':amount,
+            'totalamount':amount + shipping_amount
+            }
+        
+        # return HttpResponse('hello')
+        return JsonResponse(data)
+
+# def cart(request):
+#     if request.user.is_authenticated:
+#         user = request.user
+#         cart = Cart.objects.filter(user=user)
+#         amount = 0
+#         total_amount = 0
+#         #list comprehension to store cart data of authenticated user
+#         # cart_product = [p for p in Cart.objects.all() if p.user == user]
+#         cart_product = [p for p in cart]
+#         if cart_product:
+#             for p in cart_product:
+#                 total_amount = (p.quantity * p.product.price)
+#                 print(total_amount)
+#                 total_items = len(Cart.objects.filter(user=request.user))
+#                 context = {'cart': cart,'total_amount':total_amount, 'total_items':total_items}
+#             return render(request, 'product/cart.html', context)
+#         else:
+#             pass
+#             # return render(request, 'app/emptycart.html')
+
 
 # def add_to_cart(request):
 #     user= request.user
@@ -79,8 +123,8 @@ def add_to_cart(request, product_id):
 
     return redirect('product:cart')
 
-def plus_cart(request):
-    pass
+# def plus_cart(request):
+#     pass
 
 def minus_cart(request):
     pass

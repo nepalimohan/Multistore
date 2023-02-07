@@ -84,65 +84,85 @@
     });
 
 
-    // Product Quantity
-    // $('.quantity button').on('click', function () {
-    //     var button = $(this);
-    //     var oldValue = button.parent().parent().find('input').val();
-    //     if (button.hasClass('btn-plus')) {
-    //         var newVal = parseFloat(oldValue) + 1;
-    //     } else {
-    //         if (oldValue > 0) {
-    //             var newVal = parseFloat(oldValue) - 1;
-    //         } else {
-    //             newVal = 0;
-    //         }
-    //     }
-    //     button.parent().parent().find('input').val(newVal);
-    // });
+    //Product Quantity
+    $('.quantity button').on('click', function () {
+        var button = $(this);
+        var oldValue = button.parent().parent().find('input').val();
+        if (button.hasClass('btn-plus')) {
+            var newVal = parseFloat(oldValue) + 1;
+        } else {
+            if (oldValue > 0) {
+                var newVal = parseFloat(oldValue) - 1;
+            } else {
+                newVal = 0;
+            }
+        }
+        button.parent().parent().find('input').val(newVal);
+    });
 
     // Get all quantity inputs
 // Get all quantity inputs
-    const quantityInputs = document.querySelectorAll(".quantity input");
+    // const quantityInputs = document.querySelectorAll(".quantity input");
 
-    // Get the total amount display element
-    const totalAmountDisplay = document.querySelector("#total-amount");
+    // // Get the total amount display element
+    // const totalAmountDisplay = document.querySelector("#total-amount");
 
-    // Loop through each quantity input and add event listeners for minus and plus buttons
-    quantityInputs.forEach(input => {
-    const minusButton = input.previousElementSibling;
-    const plusButton = input.nextElementSibling;
+    // // Loop through each quantity input and add event listeners for minus and plus buttons
+    // quantityInputs.forEach(input => {
+    // const minusButton = input.previousElementSibling;
+    // const plusButton = input.nextElementSibling;
 
-    // Decrease value when minus button is clicked
-    minusButton.addEventListener("click", function() {
-        let value = parseInt(input.value);
-        if (value > 1) {
-        input.value = value - 1;
-        calculateTotalAmount();
-        }
+    // // Decrease value when minus button is clicked
+    // minusButton.addEventListener("click", function() {
+    //     let value = parseInt(input.value);
+    //     if (value > 1) {
+    //     input.value = value - 1;
+    //     calculateTotalAmount();
+    //     }
+    // });
+
+    // // Increase value when plus button is clicked
+    // plusButton.addEventListener("click", function() {
+    //     let value = parseInt(input.value);
+    //     input.value = value + 1;
+    //     calculateTotalAmount();
+    // });
+    // });
+
+    // // Function to calculate total amount based on quantity inputs
+    // function calculateTotalAmount() {
+    // let totalAmount = 0;
+    // quantityInputs.forEach(input => {
+    //     let quantity = parseInt(input.value);
+    //     let price = parseInt(input.dataset.price);
+    //     totalAmount += quantity * price;
+    // });
+
+    // // Update the total amount display
+    // totalAmountDisplay.textContent = totalAmount;
+    // // $('#total').html(data)
+    // }
+    $('.plus-cart').click(function(){
+        var id = $(this).attr("pid").toString();
+        var eml = this.parentNode.children[2] //gives the main object data of the parent node child
+        var url = $('#cart').attr('url');
+        console.log(id) 
+        $.ajax({
+            type:"GET",
+            url: url,
+            data:{
+                prod_id: id 
+            },
+            success: function(data) {
+                $(eml).text(data.quantity)
+                $(document.getElementById("amount")).text(data.amount)
+                $(document.getElementById("totalamount")).text(data.totalamount)
+                //  eml.innerText = data.quantity
+                //  document.getElementById("amount").innerText = data.amount
+                //  document.getElementById("totalamount").innerText = data.totalamount
+            }
+        })
     });
-
-    // Increase value when plus button is clicked
-    plusButton.addEventListener("click", function() {
-        let value = parseInt(input.value);
-        input.value = value + 1;
-        calculateTotalAmount();
-    });
-    });
-
-    // Function to calculate total amount based on quantity inputs
-    function calculateTotalAmount() {
-    let totalAmount = 0;
-    quantityInputs.forEach(input => {
-        let quantity = parseInt(input.value);
-        let price = parseInt(input.dataset.price);
-        totalAmount += quantity * price;
-    });
-
-    // Update the total amount display
-    totalAmountDisplay.textContent = totalAmount;
-    // $('#total').html(data)
-    }
-
     
 })(jQuery);
 
