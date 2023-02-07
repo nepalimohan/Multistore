@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.contrib.auth.decorators import login_required
 from . import models
 
 # Create your views here.
@@ -24,7 +24,6 @@ def products(request, id):
     return render(request, 'product/shop.html', context)
     # return HttpResponse("Dynamic")
 
-
 def shop(request, id):
     product = models.Product.objects.filter(category__id=id)
     context = {
@@ -33,8 +32,16 @@ def shop(request, id):
     
     return render(request, 'product/shop.html', context)
 
+@login_required(login_url='/account/login/')
 def cart(request):
     return render(request, 'product/cart.html')
 
+def plus_cart(request):
+    pass
+
+def minus_cart(request):
+    pass
+
+# @login_required(login_url='/account/login/')
 def checkout(request):
     return render(request, 'product/checkout.html')

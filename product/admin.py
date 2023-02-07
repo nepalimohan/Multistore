@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.admin import ModelAdmin, register
-from product.models import Category, Product, Customer, Subcategory
+from product.models import Category, Product, Customer, Subcategory, Cart
 from django.contrib.auth.models import Group, User
 
 # admin.site.unregister(Group)
@@ -29,6 +29,9 @@ class CustomerAdmin(ModelAdmin):
     icon_name = 'person'
     
 
+@admin.register(Cart)
+class CartAdmin(admin.ModelAdmin):
+    list_display = ('id', 'user', 'product', 'quantity', 'size')
 
 # Register your models here.
 # @admin.register(Category)
