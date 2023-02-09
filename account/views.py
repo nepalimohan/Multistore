@@ -15,7 +15,7 @@ def login(request):
         
         if user is not None:
             auth.login(request, user)
-            return redirect('product:checkout')
+            return redirect('product:cart')
         else:
             return redirect('account:login')
         

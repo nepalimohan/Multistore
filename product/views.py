@@ -37,12 +37,33 @@ def shop(request, id):
     return render(request, 'product/shop.html', context)
 
 # @login_required(login_url='/account/login/')
+# def cart(request):
+#     cart = models.Cart.objects.all()
+#     context = {
+#         'cart': cart,
+#     }
+#     return render(request, 'product/cart.html', context)
+
 def cart(request):
-    cart = models.Cart.objects.all()
-    context = {
-        'cart': cart,
-    }
-    return render(request, 'product/cart.html', context)
+    if request.user.is_authenticated:
+        user = request.user
+        cart = Cart.objects.filter(user=user)
+        amount = 0
+        shipping_amount = 100
+        total_amount = 0
+        #list comprehension to store cart data of authenticated user
+        cart_product = [p for p in Cart.objects.all() if p.user == user]
+        
+        if cart_product:
+            for p in cart_product:
+                temp_amount = (p.quantity * p.product.price)
+                amount+= temp_amount
+                total_items = len(Cart.objects.filter(user=request.user))
+                total_amount = amount + shipping_amount
+                context = {'cart': cart,'total_amount':total_amount,'amount':amount, 'total_items':total_items,'shipping_amount':shipping_amount}
+            return render(request, 'product/cart.html', context)
+        else:
+            return HttpResponse('empty cart')
 
 def plus_cart(request):
     if request.method == "GET":
@@ -71,63 +92,55 @@ def plus_cart(request):
         
         # return HttpResponse('hello')
         return JsonResponse(data)
-
-# def cart(request):
-#     if request.user.is_authenticated:
-#         user = request.user
-#         cart = Cart.objects.filter(user=user)
-#         amount = 0
-#         total_amount = 0
-#         #list comprehension to store cart data of authenticated user
-#         # cart_product = [p for p in Cart.objects.all() if p.user == user]
-#         cart_product = [p for p in cart]
-#         if cart_product:
-#             for p in cart_product:
-#                 total_amount = (p.quantity * p.product.price)
-#                 print(total_amount)
-#                 total_items = len(Cart.objects.filter(user=request.user))
-#                 context = {'cart': cart,'total_amount':total_amount, 'total_items':total_items}
-#             return render(request, 'product/cart.html', context)
-#         else:
-#             pass
-#             # return render(request, 'app/emptycart.html')
-
-
-# def add_to_cart(request):
-#     user= request.user
-#     product_id = request.GET.get('prod_id')
-#     print(product_id)
-#     product = models.Product.objects.get(id=product_id)
     
-#     models.Cart.objects.create(user=user, product=product)
-#     return redirect('product:cart')
+def minus_cart(request):
+    if request.method == "GET":
+        prod_id = request.GET['prod_id'] #getting info stored in prod_id from myscript.js
+        print(prod_id)
+        try:
+            c = Cart.objects.get(Q(product=prod_id) & Q(user=request.user))
+            c.quantity-=1
+            c.save()
+            amount = 0
+            shipping_amount = 100
+            cart_product = [p for p in Cart.objects.all() if p.user == request.user]
+            for p in cart_product:
+                temp_amount = (p.quantity * p.product.price)
+                amount+= temp_amount
+
+            data = {
+                'quantity':c.quantity,
+                'amount':amount,
+                'totalamount':amount + shipping_amount
+                }
+            return JsonResponse(data)
+        except:
+            return redirect('product:home')
 
 def add_to_cart(request, product_id):
     # Get the product based on the product_id
     user = request.user
     product = get_object_or_404(models.Product, id=product_id)
-    
-    # # Get the current cart from the session
-    # cart = request.session.get('cart', {})
-
-    # # Update the cart with the new product
-    # if product_id in cart:
-    #     cart[product_id] += 1
-    # else:
-    #     cart[product_id] = 1
-
-    # # Save the updated cart back to the session
-    # request.session['cart'] = cart
-    
-    Cart.objects.create(user=user, product=product)
-
+    cart, created = Cart.objects.get_or_create(user=user, product=product)
+    if not created:
+        return HttpResponse('product exists')
     return redirect('product:cart')
+    
+        
 
-# def plus_cart(request):
+    # print(models.Cart.objects.get(product=product))
+    # print(product)
+    
+    
+    # if product == models.Cart.objects.filter(product=product_id):
+    #     return HttpResponse('product exists')
+    # else:
+    #     Cart.objects.create(user=user, product=product)
+
+
+
+# def minus_cart(request):
 #     pass
-
-def minus_cart(request):
-    pass
 
 # @login_required(login_url='/account/login/')
 def checkout(request):
