@@ -27,6 +27,10 @@ def products(request, id):
     
     return render(request, 'product/shop.html', context)
     # return HttpResponse("Dynamic")
+    
+def product_details(request, pk):
+    product = models.Product.objects.get(pk=pk)
+    return render(request, 'product/product_details.html')
 
 def shop(request, id):
     product = models.Product.objects.filter(category__id=id)
@@ -125,22 +129,26 @@ def add_to_cart(request, product_id):
     if not created:
         return HttpResponse('product exists')
     return redirect('product:cart')
-    
-        
 
-    # print(models.Cart.objects.get(product=product))
-    # print(product)
-    
-    
-    # if product == models.Cart.objects.filter(product=product_id):
-    #     return HttpResponse('product exists')
-    # else:
-    #     Cart.objects.create(user=user, product=product)
-
-
-
-# def minus_cart(request):
-#     pass
+def remove_cart(request):
+    if request.method == "GET":
+        prod_id = request.GET['prod_id'] #getting info stored in prod_id from myscript.js
+        print(prod_id)
+        c = Cart.objects.get(Q(product=prod_id) & Q(user=request.user))
+        c.delete()
+        print(c)
+        amount = 0
+        shipping_amount = 100
+        cart_product = [p for p in Cart.objects.all() if p.user == request.user]
+        for p in cart_product:
+            temp_amount = (p.quantity * p.product.price)
+            amount+= temp_amount
+        data = {
+            'amount':amount,
+            'totalamount':amount + shipping_amount,
+            'status': 'Deleted successfully'
+            }
+        return JsonResponse(data)
 
 # @login_required(login_url='/account/login/')
 def checkout(request):

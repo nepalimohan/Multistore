@@ -105,7 +105,8 @@
         var id = $(this).attr("pid").toString();
         var eml = this.parentNode.children[2] //gives the main object data of the parent node child
         var url = $('#cart').attr('url');
-        console.log(id) 
+        console.log('plus cart') 
+
         $.ajax({
             type:"GET",
             url: url,
@@ -128,6 +129,7 @@
     var id = $(this).attr("pid").toString();
     // var eml = this.parentNode.children[2] //gives the main object data of the parent node child
     console.log(id) 
+    console.log('minus cart') 
     var url = $('#minus-cart').attr('url');
     $.ajax({
         type:"GET",

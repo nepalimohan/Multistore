@@ -51,7 +51,7 @@
                                 </div>
                             </td>
                             {% comment %} <td class="align-middle">{{carts.product.price}}</td> {% endcomment %}
-                            <td class="align-middle"><button class="btn btn-sm btn-danger"><i class="fa fa-times"></i></button></td>
+                            <td class="align-middle"><button class="btn btn-sm btn-danger remove-cart" pid={{carts.product.id}} id='remove-cart' url= {% url 'product:remove_cart' %}><i class="fa fa-times"></i></button></td>
                         </tr>
                         {% endfor %}
                     </tbody>
@@ -90,4 +90,30 @@
         </div>
     </div>
     <!-- Cart End -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+    <script>
+        $('.remove-cart').click(function(){
+            var id = $(this).attr("pid").toString();
+            var eml = this
+            var url = $('#remove-cart').attr('url');
+            console.log(id)
+            console.log('remove cart') 
+    
+            $.ajax({
+                type:"GET",
+                url:url,
+                data:{
+                    prod_id: id 
+                },
+                success: function(data) {
+                    console.log("Delete")
+                    document.getElementById("amount").innerText = data.amount
+                    document.getElementById("totalamount").innerText = data.totalamount
+                    eml.parentNode.parentNode.remove() 
+                    // whole rows of divs are deleted using multiple parent node 5:33:17
+                }
+            })
+        })
+    </script>
     {% endblock %}
