@@ -144,6 +144,29 @@
         }
     })
 })
+
+$('.remove-cart').click(function(){
+    var id = $(this).attr("pid").toString();
+    var eml = this
+    var url = $('#remove-cart').attr('url');
+    console.log(id)
+    console.log('remove cart') 
+
+    $.ajax({
+        type:"GET",
+        url:url,
+        data:{
+            prod_id: id 
+        },
+        success: function(data) {
+            console.log("Delete")
+            document.getElementById("amount").innerText = data.amount
+            document.getElementById("totalamount").innerText = data.totalamount
+            eml.parentNode.parentNode.remove() 
+            // whole rows of divs are deleted using multiple parent node 5:33:17
+        }
+    })
+})
     
 })(jQuery);
 

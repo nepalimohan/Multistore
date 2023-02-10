@@ -19,26 +19,35 @@ def home(request):
     }
     return render(request, 'product/home.html', product)
 
-def products(request, id):
-    product = models.Product.objects.filter(subcategory__id=id)
-    context = {
-        'product': product,
-    }
+# def products(request, id):
+#     product = models.Product.objects.filter(subcategory__id=id)
+#     context = {
+#         'product': product,
+#     }
     
-    return render(request, 'product/shop.html', context)
+#     return render(request, 'product/shop.html', context)
     # return HttpResponse("Dynamic")
     
 def product_details(request, pk):
     product = models.Product.objects.get(pk=pk)
     return render(request, 'product/product_details.html')
 
-def shop(request, id):
-    product = models.Product.objects.filter(category__id=id)
-    context = {
-        'product': product,
-    }
-    
-    return render(request, 'product/shop.html', context)
+def products(request, id=None):
+    if id:
+        product = models.Product.objects.filter(subcategory__id=id)
+        context = {
+            'product': product,
+        }
+        
+        return render(request, 'product/shop.html', context)
+    else:
+        product = models.Product.objects.all().order_by('-id')
+        context = {
+            'product': product,
+        }
+        
+        return render(request, 'product/shop.html', context)
+
 
 # @login_required(login_url='/account/login/')
 # def cart(request):
