@@ -9706,6 +9706,11 @@ a.text-dark:hover, a.text-dark:focus {
   animation: action 1s infinite alternate;
 }
 
+.card-image {
+  height:289px; 
+  object-fit:contain;
+}
+
 @keyframes action {
   0% {
     transform: translateY(0);
@@ -9714,3 +9719,4 @@ a.text-dark:hover, a.text-dark:focus {
     transform: translateY(-15px);
   }
 }
+

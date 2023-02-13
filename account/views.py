@@ -17,6 +17,7 @@ def login(request):
             auth.login(request, user)
             return redirect('product:cart')
         else:
+            messages.error(request, 'Invalid username and password!!!')
             return redirect('account:login')
         
     return render(request, 'account/login.html')

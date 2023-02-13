@@ -30,7 +30,7 @@ def home(request):
     
 def product_details(request, pk):
     product = models.Product.objects.get(pk=pk)
-    return render(request, 'product/product_details.html')
+    return render(request, 'product/product_details.html', {'product':product})
 
 def products(request, id=None):
     if id:
