@@ -91,10 +91,10 @@
         if (button.hasClass('btn-plus')) {
             var newVal = parseFloat(oldValue) + 1;
         } else {
-            if (oldValue > 0) {
+            if (oldValue > 1) {
                 var newVal = parseFloat(oldValue) - 1;
             } else {
-                newVal = 0;
+                newVal = 1;
             }
         }
         button.parent().parent().find('input').val(newVal);
@@ -115,7 +115,8 @@
             },
             success: function(data) {
                 // $(eml).text(data.quantity)
-                // $(document.getElementById("quantity")).text(data.quantity)
+                // $(document.getElementById("quantity")).val(data.quantity)
+                console.log(data.quantity)
                 $(document.getElementById("amount")).text(data.amount)
                 $(document.getElementById("totalamount")).text(data.totalamount)
                 //  eml.innerText = data.quantity
@@ -149,7 +150,7 @@ $('.remove-cart').click(function(){
     var id = $(this).attr("pid").toString();
     var eml = this
     var url = $('#remove-cart').attr('url');
-    console.log(id)
+    console.log(url)
     console.log('remove cart') 
 
     $.ajax({
@@ -166,6 +167,29 @@ $('.remove-cart').click(function(){
             // whole rows of divs are deleted using multiple parent node 5:33:17
         }
     })
+})
+
+$('.mohan').click(function (e){
+    e.preventDefault();
+    var id = $(this).attr("pid").toString();
+    var quantity = $("#quantity").val();
+    var url = $("#data").val();
+    console.log(url)
+
+    $.ajax({
+        type: "GET",
+        url: url,
+        data:{
+            id:id,
+            quantity:quantity,
+        },
+        success: function(data) {
+            console.log('success')
+        }
+    })
+
+    
+
 })
     
 })(jQuery);

@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from multiselectfield import MultiSelectField
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 # Create your models here.
 # class Category(models.Model):
@@ -26,6 +28,23 @@ class Subcategory(models.Model):
         
     def __str__(self):
         return f'{self.category.name} | {self.name}'   
+    
+clothes_size_choices = (
+        ('S', 'Small'),
+        ('M', 'Medium'),
+        ('L', 'Large'),
+        ('XL', 'Extra Large'),
+        ('XXL', 'Extra Extra Large'),
+    )
+    
+shoe_size_choices = (
+    ('39','39'),
+    ('40','40'),
+    ('41','41'),
+    ('42','42'),
+    ('43','43'),
+    ('44','44'),
+    )
 
 class Product(models.Model):
     name = models.CharField(max_length=100)
@@ -35,8 +54,8 @@ class Product(models.Model):
     image = models.ImageField(upload_to='uploads/')
     description = models.TextField(blank=True)
     stock = models.PositiveIntegerField()  
-    clothes_size = models.CharField(max_length=100, blank=True, null=True)
-    shoe_size = models.PositiveIntegerField(blank=True, null=True)
+    clothes_size = MultiSelectField(choices=clothes_size_choices, max_length=20,blank=True, null=True)
+    shoe_size = MultiSelectField(choices= shoe_size_choices,max_length=20 ,blank=True, null=True)
     is_featured = models.BooleanField(default=False)
 
     def __str__(self):

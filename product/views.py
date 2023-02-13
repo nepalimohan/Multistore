@@ -30,7 +30,9 @@ def home(request):
     
 def product_details(request, pk):
     product = models.Product.objects.get(pk=pk)
-    return render(request, 'product/product_details.html', {'product':product})
+    item_in_cart = False
+    item_in_cart = Cart.objects.filter(Q(product=product.id) & Q(user=request.user)).exists()
+    return render(request, 'product/product_details.html', {'product':product,'item_in_cart':item_in_cart})
 
 def products(request, id=None):
     if id:
@@ -112,29 +114,36 @@ def minus_cart(request):
         print(prod_id)
         try:
             c = Cart.objects.get(Q(product=prod_id) & Q(user=request.user))
-            c.quantity-=1
-            c.save()
-            amount = 0
-            shipping_amount = 100
-            cart_product = [p for p in Cart.objects.all() if p.user == request.user]
-            for p in cart_product:
-                temp_amount = (p.quantity * p.product.price)
-                amount+= temp_amount
+            if c.quantity >0:
+                c.quantity-=1
+                c.save()
+                amount = 0
+                shipping_amount = 100
+                cart_product = [p for p in Cart.objects.all() if p.user == request.user]
+                for p in cart_product:
+                    temp_amount = (p.quantity * p.product.price)
+                    amount+= temp_amount
 
-            data = {
-                'quantity':c.quantity,
-                'amount':amount,
-                'totalamount':amount + shipping_amount
-                }
-            return JsonResponse(data)
+                data = {
+                    'quantity':c.quantity,
+                    'amount':amount,
+                    'totalamount':amount + shipping_amount
+                    }
+                return JsonResponse(data)
         except:
             return redirect('product:home')
 
 def add_to_cart(request, product_id):
     # Get the product based on the product_id
     user = request.user
+    quantity = request.GET.get('quantity')
     product = get_object_or_404(models.Product, id=product_id)
-    cart, created = Cart.objects.get_or_create(user=user, product=product)
+    if quantity is None:
+        cart, created = Cart.objects.get_or_create(user=user, product=product)
+        print(cart, '*****')
+    else:
+        cart, created = Cart.objects.get_or_create(user=user, product=product, quantity=quantity)
+        print(cart, '#####')
     if not created:
         return HttpResponse('product exists')
     return redirect('product:cart')

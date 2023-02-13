@@ -110,6 +110,13 @@
                         </div>
                     </form>
                 </div>
+                
+                {% if item_in_cart %}
+                <div class="d-flex align-items-center mb-4 pt-2">
+                    <a href="{% url 'product:cart' %}" class="btn btn-primary px-3" ><i class="fa fa-shopping-cart mr-1"></i> Go to
+                        Cart
+                </div></a>
+                {% else %}
                 <div class="d-flex align-items-center mb-4 pt-2">
                     <div class="input-group quantity mr-3" style="width: 130px;">
                         <div class="input-group-btn">
@@ -117,16 +124,18 @@
                                 <i class="fa fa-minus"></i>
                             </button>
                         </div>
-                        <input type="text" class="form-control bg-secondary border-0 text-center" value="1">
+                        <input type="text" class="form-control bg-secondary border-0 text-center" id='quantity' name='quantity' value="1">
                         <div class="input-group-btn">
                             <button class="btn btn-primary btn-plus">
                                 <i class="fa fa-plus"></i>
                             </button>
                         </div>
                     </div>
-                    <button class="btn btn-primary px-3"><i class="fa fa-shopping-cart mr-1"></i> Add To
-                        Cart</button>
+                    <button class="btn btn-primary px-3 mohan" pid={{product.id}} id="data" value="{% url 'product:add_to_cart' product.id %}" ><i class="fa fa-shopping-cart mr-1"></i> Add To
+                        Cart {{product.id}} </button>
                 </div>
+                {% endif %}
+
                 <div class="d-flex pt-2">
                     <strong class="text-dark mr-2">Share on:</strong>
                     <div class="d-inline-flex">
