@@ -185,6 +185,7 @@ $('.mohan').click(function (e){
         },
         success: function(data) {
             console.log('success')
+            alert("Added to cart successfully");
         }
     })
 

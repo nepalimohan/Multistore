@@ -42,7 +42,7 @@
                                         <i class="fa fa-minus"></i>
                                         </button>
                                     </div>
-                                    <input type="number" class="form-control form-control-sm bg-secondary border-0 text-center" id='quantity' value="{{carts.quantity}}">
+                                    <input type="text" class="form-control form-control-sm bg-secondary border-0 text-center" id='quantity' value="{{carts.quantity}}">
                                     <div class="input-group-btn">
                                         <button class="btn btn-sm btn-primary btn-plus plus-cart" pid={{carts.product.id}} id='cart' url= {% url 'product:plus_cart' %}>
                                             <i class="fa fa-plus"></i>

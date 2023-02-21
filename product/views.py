@@ -31,8 +31,20 @@ def home(request):
 def product_details(request, pk):
     product = models.Product.objects.get(pk=pk)
     item_in_cart = False
-    item_in_cart = Cart.objects.filter(Q(product=product.id) & Q(user=request.user)).exists()
-    return render(request, 'product/product_details.html', {'product':product,'item_in_cart':item_in_cart})
+    try:
+        item_in_cart = Cart.objects.filter(Q(product=product.pk) & Q(user=request.user)).exists()
+    except:
+        item_in_cart = False
+    related_products = models.Product.objects.filter(subcategory=product.subcategory)
+    products = models.Product.objects.all()
+    context ={
+        'related_products':related_products,
+        'product':product,
+        'products':products,
+        'item_in_cart':item_in_cart,
+        
+    }
+    return render(request, 'product/product_details.html', context)
 
 def products(request, id=None):
     if id:
