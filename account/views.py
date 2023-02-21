@@ -52,7 +52,7 @@ def register(request):
                                                        phone=phone, address=address, city=city)
                     auth.login(request, user)
                     messages.success(request, "User Logged in Successfully!!!")
-                    return redirect('home')
+                    return redirect('product:home')
         
         print(username)
         return HttpResponse("Register view working")

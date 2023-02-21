@@ -6,27 +6,30 @@ from django.shortcuts import get_object_or_404
 from django.http import JsonResponse, HttpResponse
 from django.db.models import Q
 
-# Create your views here.
 def home(request):
-    category = models.Category.objects.all()
-    subcategory = models.Subcategory.objects.all().distinct()
-    product = models.Product.objects.all().last()
-    # print(product.)
-    product = {
-        'category':category,
-        'subcategory':subcategory,
-        'product':product,
-    }
-    return render(request, 'product/home.html', product)
-
-# def products(request, id):
-#     product = models.Product.objects.filter(subcategory__id=id)
-#     context = {
-#         'product': product,
-#     }
+    try:
+        category_name = request.GET.get('category').capitalize()
+        product = models.Product.objects.filter(subcategory__category__name=category_name)
+        
+        context = {
+            'product':product
+        }
+        return render(request, 'product/shop.html', context)
+        
+    except:
+        category = models.Category.objects.all()
+        subcategory = models.Subcategory.objects.all().distinct()
+        product = models.Product.objects.filter(is_featured=True).order_by('-id')[:8]
+        recent_products = models.Product.objects.all().order_by('-id')[:8]
+        product = {
+            'category':category,
+            'subcategory':subcategory,
+            'product':product,
+            'recent_products':recent_products,
+            
+        }
+        return render(request, 'product/home.html', product)
     
-#     return render(request, 'product/shop.html', context)
-    # return HttpResponse("Dynamic")
     
 def product_details(request, pk):
     product = models.Product.objects.get(pk=pk)
@@ -62,14 +65,6 @@ def products(request, id=None):
         
         return render(request, 'product/shop.html', context)
 
-
-# @login_required(login_url='/account/login/')
-# def cart(request):
-#     cart = models.Cart.objects.all()
-#     context = {
-#         'cart': cart,
-#     }
-#     return render(request, 'product/cart.html', context)
 
 def cart(request):
     if request.user.is_authenticated:

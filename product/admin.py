@@ -6,14 +6,18 @@ from django.contrib.auth.models import Group, User
 # admin.site.unregister(Group)
 # admin.site.unregister(User)
 
-@register(Category)
-class CategoryAdmin(ModelAdmin):
+class SubcategoryInline(admin.TabularInline):
+    model = Subcategory
+    extra = 1
+
+@admin.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
     list_display = ('id', 'name')
     icon_name = 'reorder'
+    inlines = [SubcategoryInline]
 
-
-@register(Subcategory)
-class SubCategoryAdmin(ModelAdmin):
+@admin.register(Subcategory)
+class SubCategoryAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'category')
     list_filter = ('category',)
     icon_name = 'view_comfy'
