@@ -38,7 +38,7 @@ def product_details(request, pk):
         item_in_cart = Cart.objects.filter(Q(product=product.pk) & Q(user=request.user)).exists()
     except:
         item_in_cart = False
-    related_products = models.Product.objects.filter(subcategory=product.subcategory)
+    related_products = models.Product.objects.filter(subcategory=product.subcategory).exclude(pk=pk)[:8]
     products = models.Product.objects.all()
     context ={
         'related_products':related_products,
