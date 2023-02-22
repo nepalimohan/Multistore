@@ -5,6 +5,7 @@ from .models import Cart
 from django.shortcuts import get_object_or_404
 from django.http import JsonResponse, HttpResponse
 from django.db.models import Q
+from django.views import View
 
 def home(request):
     try:
@@ -178,3 +179,18 @@ def remove_cart(request):
 # @login_required(login_url='/account/login/')
 def checkout(request):
     return render(request, 'product/checkout.html')
+
+def contact(request):
+    return render(request, 'product/contact.html')
+
+class ContactView(View):
+    def get(self, request):
+        return render(request, 'product/contact.html')
+    
+    def post(self, request):
+        name =  request.POST['name']
+        email = request.POST['email']
+        subject = request.POST['subject']
+        message = request.POST['message']
+        
+        pass
